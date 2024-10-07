@@ -1,56 +1,26 @@
-import { DataSource } from "typeorm"
-import { Product } from "./product"
-import { User } from "./user"
-import "reflect-metadata"
-import { Cart } from "./cart"
-import "dotenv/config" 
+import { DataSource } from 'typeorm'; // Asegúrate de tener instalado TypeORM
+import { Product } from './product';  // Importa tus entidades (Productos y Usuarios en este caso)
+import { User } from './user';
+import 'dotenv/config';  // Asegúrate de importar dotenv para cargar el archivo .env
 
+// Imprimir los valores de las variables de entorno para verificar que se cargan correctamente
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+console.log('DB_NAME:', process.env.DB_NAME);
+console.log('DB_PORT:', process.env.DB_PORT);
 
+// Configuración de TypeORM para conectarse a MySQL usando las variables de entorno
 export const AppDataSource = new DataSource({
     type: 'mysql',
-    host: process.env.DATABASE_HOST,
-    port: 3306,
-    username: process.env.DATABASE_USERNAME,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
-    synchronize: true,
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),   // Asegúrate de convertir el puerto a número
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    synchronize: true,  // Solo para desarrollo, sincroniza automáticamente las entidades con la base de datos
     logging: true,
-    entities: [Product, User, Cart], 
+    entities: [Product, User],  // Incluye tus entidades aquí
     subscribers: [],
     migrations: []
-})
-
-export type Producto = {
-    id: number
-    img: string
-    name: string
-    price: number
-    quantity: number
-}
-
-export type Usuario = {
-    id: number
-    username: string
-    email: string
-    password: string
-    password2: string
-}
-
-export const db:Array <Producto> = [
-    {
-        id: 1,
-        img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-        name: "Remera Ovesize",
-        price: 3000,
-        quantity: 1,
-    }]
-
-export const udb:Array <Usuario> = [
-    {
-        id: 1,
-        username: "Maci",
-        email: "Maci@gmail.com",
-        password: "maci123",
-        password2: "maci123"
-    }
-]
+});

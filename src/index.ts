@@ -1,12 +1,18 @@
 import express from 'express';
-import { AppDataSource } from './persistence/db';
-import { mainRouter } from './router/router';
-import { Product } from './persistence/product'
-import { User } from './persistence/user';
+import { AppDataSource } from './persistance/db';
+import { mainRouter } from './router/routes';
+import { Product } from './persistance/product'
+import { User } from './persistance/user';
 import  cors from 'cors';
 import { config } from 'dotenv';
+import 'dotenv/config';
 
 
+console.log('DB_HOST:', process.env.DB_HOST);
+console.log('DB_USER:', process.env.DB_USER);
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
+console.log('DB_NAME:', process.env.DB_NAME);
+console.log('DB_PORT:', process.env.DB_PORT);
 config();
 const database = process.env.DATABASE_NAME
 console.log(database)
