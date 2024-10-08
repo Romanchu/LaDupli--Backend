@@ -19,6 +19,7 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     synchronize: true,  // Solo para desarrollo, sincroniza automáticamente las entidades con la base de datos
+    dropSchema: true,
     logging: true,
     entities: [Product, User],  // Incluye tus entidades aquí
     subscribers: [],
