@@ -64,7 +64,6 @@ mainRouter.post('/registro', async (req: Request, res: Response) => {
     }
 });
 
-// Ruta para inicio de sesión
 mainRouter.post('/login', async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
@@ -87,7 +86,7 @@ mainRouter.post('/login', async (req: Request, res: Response) => {
 // Ruta para realizar un pedido y enviar un correo con el detalle (requiere autenticación)
 mainRouter.post('/enviar-pedido', verifyToken, upload.single('imagen'), async (req: AuthenticatedRequest, res: Response) => {
     try {
-        const { producto, opcionSeleccionada, centimetros, precio, email } = req.body; // Agrega 'opcionSeleccionada'
+        const { producto, opcionSeleccionada, cantidadMetros, precio, email, detallesAdicionales } = req.body; // Incluye la nueva información
         const imagen = req.file;
 
         // Configuración de transporte de correo
@@ -107,9 +106,10 @@ mainRouter.post('/enviar-pedido', verifyToken, upload.single('imagen'), async (r
             html: `
                 <h1>Nuevo Pedido Realizado</h1>
                 <p><strong>Producto:</strong> ${producto}</p>
-                <p><strong>Opción seleccionada:</strong> ${opcionSeleccionada}</p> <!-- Mostrar la opción seleccionada -->
-                <p><strong>Centímetros:</strong> ${centimetros}</p>
-                <p><strong>Precio:</strong> $${precio}</p>
+                <p><strong>Opción seleccionada:</strong> ${opcionSeleccionada}</p>
+                <p><strong>Cantidad en metros:</strong> ${cantidadMetros}</p>
+                <p><strong>Precio estimado:</strong> $${precio}</p>
+                <p><strong>Especificaciones adicionales:</strong> ${detallesAdicionales}</p> <!-- Muestra los detalles adicionales -->
                 <p><strong>Correo del comprador:</strong> ${email}</p>
             `,
             attachments: imagen ? [{ filename: imagen.originalname, path: imagen.path }] : [],
@@ -129,5 +129,3 @@ mainRouter.get('/perfil', verifyToken, (req: AuthenticatedRequest, res: Response
 });
 
 export { mainRouter };
-
-
