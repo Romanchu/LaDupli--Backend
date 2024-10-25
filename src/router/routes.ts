@@ -86,7 +86,7 @@ mainRouter.post('/login', async (req: Request, res: Response) => {
 // Ruta para realizar un pedido y enviar un correo con el detalle (requiere autenticación)
 mainRouter.post('/enviar-pedido', verifyToken, upload.single('imagen'), async (req: AuthenticatedRequest, res: Response) => {
     try {
-        const { producto, opcionSeleccionada, cantidadMetros, precio, email, detallesAdicionales } = req.body; // Incluye la nueva información
+        const { producto, opcionSeleccionada, cantidadMetros, email, detallesAdicionales } = req.body; // Incluye la nueva información
         const imagen = req.file;
 
         // Configuración de transporte de correo
@@ -108,7 +108,6 @@ mainRouter.post('/enviar-pedido', verifyToken, upload.single('imagen'), async (r
                 <p><strong>Producto:</strong> ${producto}</p>
                 <p><strong>Opción seleccionada:</strong> ${opcionSeleccionada}</p>
                 <p><strong>Cantidad en metros:</strong> ${cantidadMetros}</p>
-                <p><strong>Precio estimado:</strong> $${precio}</p>
                 <p><strong>Especificaciones adicionales:</strong> ${detallesAdicionales}</p> <!-- Muestra los detalles adicionales -->
                 <p><strong>Correo del comprador:</strong> ${email}</p>
             `,
