@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const mainRouter = Router();
-const JWT_SECRET = 'edbc91713593317201e1a60c99d0764e5742a86799eeca6284aa8318b34dfd74106bdca6f197902f6fe06b93adf49acadc637bd2af474ae5ea3b35f04dadf9b8';
+const JWT_SECRET = process.env.JWT_SECRET || 'defaultsecret'; // Usa una variable de entorno para mayor seguridad
 
 // Middleware de autenticación para verificar el token JWT
 const verifyToken = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
@@ -57,13 +57,14 @@ mainRouter.post('/registro', async (req: Request, res: Response) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new User(username, email, hashedPassword);
-        await AppDataSource.manager.save(newUser);
+        await userRepository.save(newUser);
         return res.status(201).send({ message: 'Usuario registrado exitosamente' });
     } catch (error) {
         return res.status(500).send({ message: 'Error en el servidor', error });
     }
 });
 
+// Ruta para inicio de sesión
 mainRouter.post('/login', async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
@@ -83,10 +84,10 @@ mainRouter.post('/login', async (req: Request, res: Response) => {
     }
 });
 
-// Ruta para realizar un pedido y enviar un correo con el detalle (requiere autenticación)
+// Ruta para enviar pedido
 mainRouter.post('/enviar-pedido', verifyToken, upload.single('imagen'), async (req: AuthenticatedRequest, res: Response) => {
     try {
-        const { producto, opcionSeleccionada, cantidadMetros, email, detallesAdicionales } = req.body; // Incluye la nueva información
+        const { producto, opcionSeleccionada, cantidadMetros, email, detallesAdicionales } = req.body;
         const imagen = req.file;
 
         // Configuración de transporte de correo
@@ -108,7 +109,7 @@ mainRouter.post('/enviar-pedido', verifyToken, upload.single('imagen'), async (r
                 <p><strong>Producto:</strong> ${producto}</p>
                 <p><strong>Opción seleccionada:</strong> ${opcionSeleccionada}</p>
                 <p><strong>Cantidad en metros:</strong> ${cantidadMetros}</p>
-                <p><strong>Especificaciones adicionales:</strong> ${detallesAdicionales}</p> <!-- Muestra los detalles adicionales -->
+                <p><strong>Especificaciones adicionales:</strong> ${detallesAdicionales}</p>
                 <p><strong>Correo del comprador:</strong> ${email}</p>
             `,
             attachments: imagen ? [{ filename: imagen.originalname, path: imagen.path }] : [],
@@ -122,7 +123,7 @@ mainRouter.post('/enviar-pedido', verifyToken, upload.single('imagen'), async (r
     }
 });
 
-// Ruta protegida para obtener perfil del usuario autenticado
+// Ruta para obtener perfil de usuario
 mainRouter.get('/perfil', verifyToken, (req: AuthenticatedRequest, res: Response) => {
     return res.status(200).send({ message: 'Token válido', user: req.user });
 });

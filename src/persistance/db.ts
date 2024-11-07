@@ -1,25 +1,15 @@
-import { DataSource } from 'typeorm'; 
-import { Product } from './product'; 
+import { DataSource } from 'typeorm';
+import { Product } from './product';
 import { User } from './user';
-import 'dotenv/config';  
-
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('DB_USER:', process.env.DB_USER);
-console.log('DB_PASSWORD:', process.env.DB_PASSWORD);
-console.log('DB_NAME:', process.env.DB_NAME);
-console.log('DB_PORT:', process.env.DB_PORT);
+import 'dotenv/config';
 
 export const AppDataSource = new DataSource({
-    type: 'mysql',
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT),   
-    username: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    synchronize: true,  
-    dropSchema: true,
+    type: 'sqlite', // Cambiamos de 'mysql' a 'sqlite'
+    database: './database.sqlite', // Archivo de la base de datos SQLite
+    synchronize: true, // Sincroniza automáticamente la estructura de la base de datos
+    dropSchema: false, // Evita que se elimine el esquema en cada inicio
     logging: true,
-    entities: [Product, User],  
+    entities: [Product, User],
     subscribers: [],
-    migrations: []
+    migrations: [],
 });

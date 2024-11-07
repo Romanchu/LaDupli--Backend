@@ -1,7 +1,11 @@
 import { JwtPayload } from 'jsonwebtoken';
 
-declare module 'express' {
-    export interface Request {
-        user?: userId | JwtPayload; 
+declare global {
+    namespace Express {
+        export interface Request {
+            user?: userId | JwtPayload;
+        }
     }
 }
+
+
