@@ -1,5 +1,5 @@
 {
-  "name": "puntostore-backend",
+  "name": "ladupli-backend",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JoaSNZ/.Store-Backend.git"
+    "url": "git+https://github.com/Romanchu/LaDupli--Backend"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JoaSNZ/.Store-Backend/issues"
+    "url": "https://github.com/Romanchu/LaDupli--Backend"
   },
-  "homepage": "https://github.com/JoaSNZ/.Store-Backend#readme",
+  "homepage": "https://github.com/Romanchu/LaDupli--Backend",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.17",
