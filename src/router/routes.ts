@@ -45,7 +45,7 @@ const verifyToken = (req: AuthenticatedRequest, res: Response, next: NextFunctio
 };
 
 // Ruta de salud para verificar la conexión
-mainRouter.get('/health', (req: Request, res: Response) => {
+mainRouter.get('/health', async (_: Request, res: Response) => {
     res.send('ok');
 });
 
