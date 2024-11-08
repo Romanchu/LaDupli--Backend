@@ -11,7 +11,7 @@ config(); // Cargar variables de entorno desde .env
 
 const app = express();
 const port = process.env.PORT || 8080; // Usa el puerto de entorno o 8080 por defecto
-const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000'; // Usa la URL del frontend en producción
+const frontendUrl = process.env.FRONTEND_URL || 'https://ladupli-backend.onrender.com'; // Usa la URL del frontend en producción
 
 // Configuración de CORS para permitir solicitudes desde el frontend
 app.use(cors({
