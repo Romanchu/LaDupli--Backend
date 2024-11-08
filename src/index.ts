@@ -10,11 +10,12 @@ import 'dotenv/config';
 config(); // Cargar variables de entorno desde .env
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080; // Usa el puerto de entorno o 8080 por defecto
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000'; // Usa la URL del frontend en producción
 
 // Configuración de CORS para permitir solicitudes desde el frontend
 app.use(cors({
-    origin: 'http://localhost:3000', // Asegúrate de que el frontend está corriendo en este puerto
+    origin: frontendUrl, // Permite solicitudes desde la URL del frontend
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Headers permitidos
     credentials: true // Habilita el uso de cookies
@@ -57,9 +58,10 @@ AppDataSource.initialize()
 
         // Iniciar el servidor
         app.listen(port, () => {
-            console.log(`Servidor corriendo en: http://localhost:${port}`);
+            console.log(`Servidor corriendo en el puerto ${port}`);
         });
     })
     .catch(err => {
         console.error('Error al conectar la base de datos:', err);
     });
+
