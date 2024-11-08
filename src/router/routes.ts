@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const mainRouter = Router();
-const JWT_SECRET = process.env.JWT_SECRET || 'defaultsecret'; // Usa una variable de entorno para mayor seguridad
+const JWT_SECRET = process.env.JWT_SECRET || 'defaultsecret';
 
 // Middleware de autenticación para verificar el token JWT
 const verifyToken = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
@@ -43,6 +43,11 @@ const verifyToken = (req: AuthenticatedRequest, res: Response, next: NextFunctio
         res.status(403).send({ message: 'Falta inicio de sesión.' });
     }
 };
+
+// Ruta de salud para verificar la conexión
+mainRouter.get('/health', (req: Request, res: Response) => {
+    res.send('ok');
+});
 
 // Ruta para registro de usuarios
 mainRouter.post('/registro', async (req: Request, res: Response) => {
@@ -129,3 +134,4 @@ mainRouter.get('/perfil', verifyToken, (req: AuthenticatedRequest, res: Response
 });
 
 export { mainRouter };
+
